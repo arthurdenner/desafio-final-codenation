@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import imgGitHub from "../../img/gitHub.svg";
+import { Field, reduxForm } from "redux-form";
+import Input from "../Input/Input";
+import Button from "../Button/Button";
 
 const NavDefault = styled.nav`
   margin: 0 auto;
@@ -10,16 +13,28 @@ const NavDefault = styled.nav`
 `;
 
 const Img = styled.img`
-  padding: 1em;
-  margin: 0 auto;
+  margin: 1em auto;
   border-radius: 0.7em;
-  width: 50px;
+  display: inline;
 `;
 
-const Nav = () => (
+const Form = styled.form`
+  display: inline;
+  position: absolute;
+  padding-left: 300px;
+  margin: 1em 0 auto;
+`;
+
+let Nav = props => (
   <NavDefault>
     <Img src={imgGitHub} alt='image gitHub' />
+    <Form>
+      <Field name='search' component={Input} />
+      <Button>OK</Button>
+    </Form>
   </NavDefault>
 );
+
+Nav = reduxForm({ form: "nav" })(Nav);
 
 export default Nav;
