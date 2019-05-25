@@ -11,11 +11,7 @@ const InputDefault = styled.input`
 `;
 
 const Input = props => (
-  <InputDefault
-    name={props.name}
-    component='input'
-    placeholder={props.placeholder}
-  />
+  <InputDefault name={props.name} placeholder={props.placeholder} />
 );
 
 export default Input;
