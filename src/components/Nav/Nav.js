@@ -25,11 +25,16 @@ const Form = styled.form`
   margin: 1em 0 auto;
 `;
 
-let Nav = props => (
+let Nav = handleSubmit => (
   <NavDefault>
     <Img src={imgGitHub} alt='image gitHub' />
-    <Form>
-      <Field name='search' component={Input} />
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name='search'
+        placeholder='Buscar Repositório'
+        type='text'
+        component={Input}
+      />
       <Button>OK</Button>
     </Form>
   </NavDefault>
