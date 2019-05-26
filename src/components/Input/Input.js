@@ -10,8 +10,13 @@ const InputDefault = styled.input`
   border-radius: 0.3em;
 `;
 
-const Input = props => (
-  <InputDefault name={props.name} placeholder={props.placeholder} />
+const Input = ({ name, placeholder, onChange }) => (
+  <InputDefault
+    name={name}
+    placeholder={placeholder}
+    type='text'
+    onChange={onChange}
+  />
 );
 
 export default Input;
