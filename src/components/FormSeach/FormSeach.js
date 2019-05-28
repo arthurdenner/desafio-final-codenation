@@ -1,25 +1,28 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import styled from "styled-components";
-import Button from "../Button/Button";
-import Input from "../Input/Input";
 
-const FormNav = styled.form`
-  display: inline;
-  position: absolute;
-  padding-left: 300px;
-  margin: 1em 0 auto;
+const Form = styled.form`
+  margin: 0 5em auto;
+  position: relative;
+  width: 100%;
+  padding: 2em 0;
 `;
 
-let FormSeach = ({ handleSubmit, labelButton }) => {
+const FormSeach = props => {
+  const { handleSubmit } = props;
   return (
-    <FormNav onSubmit={handleSubmit}>
-      <Field name='seach' component={Input} type='text' />
-      <Button>{labelButton}</Button>
-    </FormNav>
+    <Form onSubmit={handleSubmit}>
+      <Field
+        name='name'
+        component='input'
+        type='text'
+        placeholder='Nome do repositórios'
+      />
+    </Form>
   );
 };
 
-export default (FormSeach = reduxForm({
-  form: "formSeach"
-})(FormSeach));
+export default reduxForm({
+  form: "FormSeach"
+})(FormSeach);

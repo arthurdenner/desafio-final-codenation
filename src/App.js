@@ -1,10 +1,10 @@
 import React from "react";
-import Nav from "../src/components/Nav/Nav";
+import Home from "../src/containers/Home/Home";
 
 function App() {
   return (
     <div>
-      <Nav />
+      <Home />
     </div>
   );
 }
