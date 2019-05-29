@@ -1,31 +1,36 @@
 import React from "react";
 import { connect } from "react-redux";
-import FormSeach from "../../components/FormSeach/FormSeach";
-import Nav from "../../components/Nav/Nav";
-import { fetchUserData, selectUser } from "../../redux/actions";
+import Nav from "../../components/Nav/";
+import UserProfile from "../../components/UserProfile/";
+import RepoList from "../../components/RepoList/";
+import { fetchUserAndRepos } from "../../redux/actions";
 import { bindActionCreators } from 'redux'
 
 class Home extends React.Component {
-  state = {};
+  state = {
+  };
   handleSubmit = e => {
-    this.props.fetchUserData(e.name)
+    this.props.fetchUserAndRepos(e.name)
+    console.log(e)
   };
 
   render() {
     return (
       <div>
-        <Nav />
-        <FormSeach onSubmit={this.handleSubmit} />
+        <Nav onSubmit={this.handleSubmit}/>
+        <UserProfile />
+        <RepoList repositories={this.props.repos.repos.data || []} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  user: state.currentUserData
+  user: state.currentUserData,
+  repos: state.userRepos,
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators( { fetchUserData: fetchUserData, selectUser: selectUser } , dispatch);
+  bindActionCreators( { fetchUserAndRepos: fetchUserAndRepos } , dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -1,19 +1,12 @@
+import Api from '../utils/api'
 import {
-    SELECT_USER,
     REQUEST_USERDATA,
     RECEIVE_USERDATA,
     RECEIVE_USERDATA_ERROR,
-    REQUEST_REPOS,
-    RECEIVE_REPOS,
-    RECEIVE_REPOS_ERROR,
+    REQUEST_USERREPOS,
+    RECEIVE_USERREPOS,
+    RECEIVE_USERREPOS_ERROR,
 } from './constants';
-
-export function selectUser(user) {
-    return {
-        type: SELECT_USER,
-        user,
-    };
-}
 
 export function requestUserData() {
     return {
@@ -37,20 +30,20 @@ function receiveUserDataErr(error) {
 
 function requestRepos() {
     return {
-        type: REQUEST_REPOS,
+        type: REQUEST_USERREPOS,
     };
 }
 
 function receiveRepos(json) {
     return {
-        type: RECEIVE_REPOS,
+        type: RECEIVE_USERREPOS,
         repos: json,
     };
 }
 
 function receiveReposErr(error) {
     return {
-        type: RECEIVE_REPOS_ERROR,
+        type: RECEIVE_USERREPOS_ERROR,
         error,
     };
 }
@@ -58,8 +51,7 @@ function receiveReposErr(error) {
 export function fetchUserData(user) {
     return dispatch => {
         dispatch(requestUserData());
-        return fetch(`https://api.github.com/users/${user}`)
-            .then(res => res.json())
+        return Api.get(`/users/${user}`)
             .then(json => dispatch(receiveUserData(json)))
             .catch(err => dispatch(receiveUserDataErr(err)));
     };
@@ -68,8 +60,7 @@ export function fetchUserData(user) {
 function fetchRepos(user) {
     return dispatch => {
         dispatch(requestRepos());
-        return fetch(`https://api.github.com/users/${user}/repos`)
-            .then(res => res.json())
+        return Api.get(`/users/${user}/repos`)
             .then(json => dispatch(receiveRepos(json)))
             .catch(err => dispatch(receiveReposErr(err)));
     };
@@ -78,14 +69,16 @@ function fetchRepos(user) {
 export function fetchUserAndRepos(user) {
     return (dispatch, getState) => {
         return dispatch(fetchUserData(user)).then(() => {
-            const { currentUserData } = getState();
-            if (
-                !currentUserData.isFetching &&
-                currentUserData.userData.message
-            ) {
-                return;
-            }
             return dispatch(fetchRepos(user));
         });
+    };
+}
+
+function searchRepos(language) {
+    return dispatch => {
+        dispatch(requestRepos());
+        return Api.get(`/search/repositories?q=language%3A${language}`)
+            .then(json => dispatch(receiveRepos(json)))
+            .catch(err => dispatch(receiveReposErr(err)));
     };
 }
