@@ -1,22 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+import RepoDetails from '../RepoDetails/'
+import { connect } from "react-redux";
+import { selectedRepo, fetchEventsData } from "../../redux/actions";
+import { bindActionCreators } from 'redux'
 
 const RepoListStyle = styled.div`
   height: 100%;
-  width: 100%;
+  width: 120%;
   position: fixed;
-  background-color: #f2f2f2;
   left: 300px;
+  top: 0;
   padding-top: 100px
   overflow-x: hidden;
   display: block;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ReposData = styled.div`
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -45,6 +42,21 @@ const H4 = styled.h4`
   text-align: left;
 `;
 
+const Li = styled.li`
+  margin: 10px;
+  padding-top: 10px;
+  width: 300px;
+  list-style-type: none;
+  box-shadow: 2px 4px 8px 2px rgba(0,0,0,0.2);
+  transition 0.3s;
+  border-radius: 5px;
+  background-color: ${props => props.selected ? '#d2ffd1' : 'white' };
+  :hover {
+    background-color: #fffee8;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+`;
+
 const P = styled.p`
   margin-top: 0;
   display: inline-block !important;
@@ -55,17 +67,26 @@ const P = styled.p`
   text-align: center;
 `;
 
-const Li = styled.li`
-  list-style-type: none;
-`
+let formatDate = date => {
+  var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  let x = new Date(date).toLocaleDateString('en-US', dateOptions)
+  return x
+}
 
-const Img = styled.img`
-  width: 280px;
-  border-radius: 50%;
-`;
 
 let RepoList = props => {
   const repos = props.repositories
+  const repo = props.repo
+  const selectRepo = props.selectRepo
+  const onChangeRepo = props.onChangeRepo
+  const events = props.events
+  const user = props.user
+  
+  let changeRepo = id => {
+    selectRepo(id)
+    onChangeRepo(user.login, repos.filter(r=>(r.id === id))[0].name)
+  }
+
   return(
   <div>
     {repos.length > 0 && (<RepoListStyle>
@@ -73,13 +94,26 @@ let RepoList = props => {
       <ul>
         {repos && repos.map(r=>{
           return(
-            <Li key={r.id}>
+            <Li selected={repo === r.id} key={r.id} onClick={() => changeRepo(r.id)}>
               <H4>{r.name} <P><b>({r.language})</b></P></H4>
-              <P date>Created at: <b>{r.created_at}</b></P>
+              <P date>Created at: <b>{formatDate(r.created_at)}</b></P>
             </Li>)})}
       </ul>
+      <P date>Click on card to view events</P>
+      {repo !== 0 && events.data && (<RepoDetails events={events.data}/>)}
     </RepoListStyle>)}
   </div>
 )};
 
-export default (RepoList);
+const mapStateToProps = state => ({
+  user: state.currentUserData.userData.data,
+  repo: state.selectedRepo.selectedRepo,
+  events: state.currentEventsData.eventsData,
+});
+const mapDispatchToProps = dispatch =>
+  bindActionCreators( { 
+    selectRepo: selectedRepo, 
+    fetchEventsData: fetchEventsData,
+  } , dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(RepoList);

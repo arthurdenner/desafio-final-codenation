@@ -1,5 +1,5 @@
 import React from "react";
-import RepositorySeachItem from "../../components/RepositorySeachItem/RepositorySeachItem";
+import RepositorySeachItem from "../../components/RepositorySeachItem";
 import { connect } from "react-redux";
 import Nav from "../../components/Nav";
 import RepoList from "../../components/RepoList/";
