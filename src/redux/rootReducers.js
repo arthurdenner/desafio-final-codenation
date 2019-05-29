@@ -10,6 +10,10 @@ import {
     REQUEST_REPOS,
     RECEIVE_REPOS,
     RECEIVE_REPOS_ERROR,
+    SELECTED_REPO,
+    REQUEST_EVENTS,
+    RECEIVE_EVENTS,
+    RECEIVE_EVENTS_ERROR
 } from './constants';
 
 export function currentUserData(
@@ -34,6 +38,23 @@ export function currentUserData(
                 isFetching: false,
                 userData: action.error,
             });
+        default:
+            return state;
+    }
+}
+
+export function selectedRepo(
+    state = {
+        selectedRepo: 0,
+    },
+    action
+) {
+    switch (action.type) {
+        case SELECTED_REPO:
+            return {
+                ...state,
+                selectedRepo: action.selectedRepo
+            };
         default:
             return state;
     }
@@ -93,10 +114,39 @@ export function reposData(
     }
 }
 
+export function currentEventsData(
+    state = {
+        isFetching: false,
+        eventsData: {},
+    },
+    action
+) {
+    switch (action.type) {
+        case REQUEST_EVENTS:
+            return Object.assign({}, state, {
+                isFetching: true,
+            });
+        case RECEIVE_EVENTS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                eventsData: action.eventsData,
+            });
+        case RECEIVE_EVENTS_ERROR:
+            return Object.assign({}, state, {
+                isFetching: false,
+                eventsData: action.error,
+            });
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     currentUserData,
+    selectedRepo,
     userRepos,
     reposData,
+    currentEventsData,
     form: formReducer,
 });
 

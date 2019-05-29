@@ -3,23 +3,27 @@ import { connect } from "react-redux";
 import Nav from "../../components/Nav/";
 import UserProfile from "../../components/UserProfile/";
 import RepoList from "../../components/RepoList/";
-import { fetchUserAndRepos } from "../../redux/actions";
-import { bindActionCreators } from 'redux'
+import { fetchUserAndRepos, fetchEventsData } from "../../redux/actions";
+import { bindActionCreators } from "redux";
 
 class Home extends React.Component {
-  state = {
-  };
   handleSubmit = e => {
-    this.props.fetchUserAndRepos(e.name)
-    console.log(e)
+    this.props.fetchUserAndRepos(e.name);
   };
+
+  handleChange = (a,b) => {
+    this.props.fetchEventsData(a,b)
+  }
 
   render() {
     return (
       <div>
-        <Nav onSubmit={this.handleSubmit}/>
+        <Nav onSubmit={this.handleSubmit} />
         <UserProfile />
-        <RepoList repositories={this.props.repos.repos.data || []} />
+        <RepoList
+          repositories={this.props.repos.repos.data || []}
+          onChangeRepo={this.handleChange}
+        />
       </div>
     );
   }
@@ -27,10 +31,16 @@ class Home extends React.Component {
 
 const mapStateToProps = state => ({
   user: state.currentUserData,
-  repos: state.userRepos,
+  repos: state.userRepos
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators( { fetchUserAndRepos: fetchUserAndRepos } , dispatch);
+  bindActionCreators(
+    { fetchUserAndRepos: fetchUserAndRepos, fetchEventsData: fetchEventsData },
+    dispatch
+  );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
