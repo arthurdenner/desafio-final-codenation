@@ -1,5 +1,5 @@
 import React from "react";
-import RepositorySeachItem from "../../components/RepositorySeachItem/RepositorySeachItem";
+import RepositorySeachItem from "../../components/RepositorySeachItem/";
 
 class RepositorySeach extends React.Component {
   state = {};
