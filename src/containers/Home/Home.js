@@ -2,10 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import FormSeach from "../../components/FormSeach/FormSeach";
 import Nav from "../../components/Nav/Nav";
+import { fetchUserData, selectUser } from "../../redux/actions";
+import { bindActionCreators } from 'redux'
 
 class Home extends React.Component {
   state = {};
-  handleSubmit = e => {};
+  handleSubmit = e => {
+    this.props.fetchUserData(e.name)
+  };
 
   render() {
     return (
@@ -17,6 +21,11 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  user: state.currentUserData
+});
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators( { fetchUserData: fetchUserData, selectUser: selectUser } , dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

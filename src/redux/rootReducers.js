@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import {
     SELECT_USER,
     REQUEST_USERDATA,
@@ -76,6 +77,7 @@ const rootReducer = combineReducers({
     currentUser,
     currentUserData,
     userRepos,
+    form: formReducer,
 });
 
 export default rootReducer;

@@ -8,21 +8,31 @@ const Form = styled.form`
   width: 100%;
   padding: 2em 0;
 `;
+const Button = styled.button`
+  margin-left: 1em;
+`;
 
 const FormSeach = props => {
-  const { handleSubmit } = props;
+  const { handleSubmit, submitting } = props;
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={ e => {
+        e.preventDefault();
+        handleSubmit()
+      }}>
       <Field
-        name='name'
-        component='input'
-        type='text'
-        placeholder='Nome do repositórios'
+        name="name"
+        component="input"
+        type="text"
+        placeholder="Digite o nome do usuário"
       />
+      <Button type="submit" disabled={submitting}>
+        Procurar
+      </Button>
     </Form>
   );
 };
 
 export default reduxForm({
-  form: "FormSeach"
+  form: "formSeach",
+  destroyOnUnmount: false
 })(FormSeach);
