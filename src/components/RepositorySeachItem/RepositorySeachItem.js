@@ -1,8 +1,9 @@
 import React from "react";
-import Nav from "../Nav/Nav";
-import Button from "../Button/Button";
+import Nav from "../Nav";
+import Button from "../Button";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 const ContainersRepository = styled.div`
   width: 100%;
@@ -110,7 +111,7 @@ const LinguagemProgramacao = styled.div`
 
 const RepositorySeachItem = () => (
   <div>
-    {/* <Nav /> */}
+    <Nav />
     <ContainersRepository>
       <Ul>
         <Li>
@@ -137,4 +138,10 @@ const RepositorySeachItem = () => (
   </div>
 );
 
-export default RepositorySeachItem;
+const mapStateToProps = state => ({
+  user: state.currentUserData,
+  repos: state.userRepos,
+  form: state.form.formSearch
+});
+
+export default connect(mapStateToProps)(RepositorySeachItem);
