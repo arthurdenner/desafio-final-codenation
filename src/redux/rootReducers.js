@@ -1,22 +1,16 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import {
-    SELECT_USER,
     REQUEST_USERDATA,
     RECEIVE_USERDATA,
     RECEIVE_USERDATA_ERROR,
+    REQUEST_USERREPOS,
+    RECEIVE_USERREPOS,
+    RECEIVE_USERREPOS_ERROR,
     REQUEST_REPOS,
     RECEIVE_REPOS,
     RECEIVE_REPOS_ERROR,
 } from './constants';
-
-export function currentUser(state = '', action) {
-    switch (action.type) {
-        case SELECT_USER:
-            return action.user;
-        default:
-            return state;
-    }
-}
 
 export function currentUserData(
     state = {
@@ -53,6 +47,33 @@ export function userRepos(
     action
 ) {
     switch (action.type) {
+        case REQUEST_USERREPOS:
+            return Object.assign({}, state, {
+                isFetching: true,
+            });
+        case RECEIVE_USERREPOS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                repos: action.repos,
+            });
+        case RECEIVE_USERREPOS_ERROR:
+            return Object.assign({}, state, {
+                isFetching: false,
+                repos: action.error,
+            });
+        default:
+            return state;
+    }
+}
+
+export function reposData(
+    state = {
+        isFetching: false,
+        repos: [],
+    },
+    action
+) {
+    switch (action.type) {
         case REQUEST_REPOS:
             return Object.assign({}, state, {
                 isFetching: true,
@@ -73,9 +94,10 @@ export function userRepos(
 }
 
 const rootReducer = combineReducers({
-    currentUser,
     currentUserData,
     userRepos,
+    reposData,
+    form: formReducer,
 });
 
 export default rootReducer;
