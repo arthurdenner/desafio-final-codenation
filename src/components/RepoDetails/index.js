@@ -75,7 +75,7 @@ let RepoDetails = props => {
       {events.length > 0 && <H3>Events List</H3>}
       <ul>
         {events.map((e)=> (
-          <Li>
+          <Li key={e.id}>
             <H4>event: <b>{e.type}</b></H4>
             <ul>
               <P>user: {e.actor.login}</P>

@@ -80,11 +80,11 @@ let RepoList = props => {
   const selectRepo = props.selectRepo
   const onChangeRepo = props.onChangeRepo
   const events = props.events
-  const user = props.user
   
   let changeRepo = id => {
     selectRepo(id)
-    onChangeRepo(user.login, repos.filter(r=>(r.id === id))[0].name)
+    const r = repos.filter(r=>(r.id === id))[0]
+    onChangeRepo(r.owner.login, r.name)
   }
 
   return(
@@ -96,6 +96,8 @@ let RepoList = props => {
           return(
             <Li selected={repo === r.id} key={r.id} onClick={() => changeRepo(r.id)}>
               <H4>{r.name} <P><b>({r.language})</b></P></H4>
+              <P date>Forks: <b>{r.forks}</b></P>
+              <P date>Stars: <b>{r.stargazers_count}</b></P>
               <P date>Created at: <b>{formatDate(r.created_at)}</b></P>
             </Li>)})}
       </ul>
@@ -106,7 +108,6 @@ let RepoList = props => {
 )};
 
 const mapStateToProps = state => ({
-  user: state.currentUserData.userData.data,
   repo: state.selectedRepo.selectedRepo,
   events: state.currentEventsData.eventsData,
 });

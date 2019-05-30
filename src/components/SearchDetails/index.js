@@ -26,7 +26,7 @@ const ErrorDiv = styled.div`
   text-align: center;
 `;
 
-const UserData = styled.div`
+const SearchData = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -57,25 +57,8 @@ const H3 = styled.h3`
   text-align: center;
 `;
 
-const P = styled.p`
-  margin-top: 0;
-  display: inline-block !important;
-  padding-right: 24px !important;
-  margin-bottom: 8px !important;
-  color: #586069 !important;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  list-style: none;
-  text-align: center;
-`;
-
-const Img = styled.img`
-  width: 280px;
-  border-radius: 50%;
-`;
-
 let UserProfile = props => {
-  const { user, form } = props
+  const { repos, form } = props
   let submit;
   try { 
     submit = form.submitSucceeded 
@@ -83,26 +66,22 @@ let UserProfile = props => {
   catch{
     submit = false
   }
+  
   return(
   <UserProfileStyle>
-    <Loading>{user.isFetching && submit && 'Loading...'}</Loading>
-    <ErrorDiv>{!user.isFetching && submit && !user.userData.data && 'Não foi possível encontrar...'}</ErrorDiv>
-    {!user.isFetching && submit && user.userData.data && (
-      <UserData>
-        <Img src={user.userData.data.avatar_url}></Img>
-        <H2>{user.userData.data.name}</H2>
-        <H3><a href={user.userData.data.html_url} target='_blank' rel='noopener noreferrer'>{user.userData.data.login}</a></H3>
-        <P>Location: <b>{user.userData.data.location}</b></P>
-        <P>Following: <b>{user.userData.data.followers}</b></P>
-        <P>Followers: <b>{user.userData.data.following}</b></P>
-        <P>Public Repositories: <b>{user.userData.data.public_repos}</b></P>
-      </UserData>
+    <Loading>{repos.isFetching && submit && 'Loading...'}</Loading>
+    <ErrorDiv>{!repos.isFetching && submit && !repos.repos.items && 'Não foi possível encontrar...'}</ErrorDiv>
+    {!repos.isFetching && submit && repos.repos.items && (
+      <SearchData>
+        <H2>{repos.repos.total_count} Found Repositories</H2>
+        <H3>Listing Top 30 Stars</H3>
+      </SearchData>
     )}
   </UserProfileStyle>
 )};
 
 const mapStateToProps = state => ({
-  user: state.currentUserData,
+  repos: state.reposSearch,
   form: state.form.formSearch
 });
 

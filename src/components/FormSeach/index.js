@@ -1,8 +1,7 @@
-/* eslint-disable */
-
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 const textStyle = {
   width: "400px",
@@ -28,7 +27,7 @@ const Button = styled.button`
   font-size: 1em;
   border: 2px solid wheat;
   border-radius: 0.5em;
-  width: 100px;
+  width: auto;
   height: 30px;
 
   :hover {
@@ -39,7 +38,7 @@ const Button = styled.button`
 `;
 
 const FormSearch = props => {
-  const { handleSubmit, submitting, placeholder} = props;
+  const { handleSubmit, submitting, placeholder, to, linkTo} = props;
   return (
     <Form
       onSubmit={e => {
@@ -57,6 +56,10 @@ const FormSearch = props => {
       <Button type="submit" disabled={submitting}>
         Search
       </Button>
+      <Button>
+        <Link to={linkTo} style={{textDecoration: 'none', color: 'tomato'}}>Search by {to}</Link>
+      </Button>
+      
     </Form>
   );
 };

@@ -27,7 +27,7 @@ let Nav = props => {
     <Link to='/'>
       <Img src={imgGitHub} alt='image gitHub' />
     </Link>
-    <FormSeach onSubmit={props.onSubmit} placeholder={props.placeholder}/>
+    <FormSeach onSubmit={props.onSubmit} placeholder={props.placeholder} to={props.to} linkTo={props.linkTo}/>
   </NavStyle>
 )};
 
