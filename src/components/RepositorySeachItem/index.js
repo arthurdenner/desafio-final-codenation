@@ -110,7 +110,7 @@ const LinguagemProgramacao = styled.div`
 
 const RepositorySeachItem = () => (
   <div>
-    {/* <Nav /> */}
+    <Nav onSubmit={this.handleSubmit} placeholder='Find by username'/>
     <ContainersRepository>
       <Ul>
         <Li>

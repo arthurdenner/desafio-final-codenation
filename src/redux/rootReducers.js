@@ -7,6 +7,9 @@ import {
     REQUEST_USERREPOS,
     RECEIVE_USERREPOS,
     RECEIVE_USERREPOS_ERROR,
+    REQUEST_SEARCHREPOS,
+    RECEIVE_SEARCHREPOS,
+    RECEIVE_SEARCHREPOS_ERROR,
     REQUEST_REPOS,
     RECEIVE_REPOS,
     RECEIVE_REPOS_ERROR,
@@ -114,6 +117,33 @@ export function reposData(
     }
 }
 
+export function reposSearch(
+    state = {
+        isFetching: false,
+        repos: [],
+    },
+    action
+) {
+    switch (action.type) {
+        case REQUEST_SEARCHREPOS:
+            return Object.assign({}, state, {
+                isFetching: true,
+            });
+        case RECEIVE_SEARCHREPOS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                repos: action.repos,
+            });
+        case RECEIVE_SEARCHREPOS_ERROR:
+            return Object.assign({}, state, {
+                isFetching: false,
+                repos: action.error,
+            });
+        default:
+            return state;
+    }
+}
+
 export function currentEventsData(
     state = {
         isFetching: false,
@@ -146,6 +176,7 @@ const rootReducer = combineReducers({
     selectedRepo,
     userRepos,
     reposData,
+    reposSearch,
     currentEventsData,
     form: formReducer,
 });

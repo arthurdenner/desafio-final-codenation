@@ -18,7 +18,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <Nav onSubmit={this.handleSubmit} />
+        <Nav onSubmit={this.handleSubmit} placeholder='Find by username'/>
         <UserProfile />
         <RepoList
           repositories={this.props.repos.repos.data || []}

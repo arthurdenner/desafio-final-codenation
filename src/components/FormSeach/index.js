@@ -39,7 +39,7 @@ const Button = styled.button`
 `;
 
 const FormSearch = props => {
-  const { handleSubmit, submitting } = props;
+  const { handleSubmit, submitting, placeholder} = props;
   return (
     <Form
       onSubmit={e => {
@@ -52,10 +52,10 @@ const FormSearch = props => {
         name="name"
         component="input"
         type="text"
-        placeholder="Digite o nome do usuário"
+        placeholder={ placeholder }
       />
       <Button type="submit" disabled={submitting}>
-        Procurar
+        Search
       </Button>
     </Form>
   );

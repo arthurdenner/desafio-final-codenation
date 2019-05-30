@@ -6,6 +6,9 @@ import {
     REQUEST_USERREPOS,
     RECEIVE_USERREPOS,
     RECEIVE_USERREPOS_ERROR,
+    REQUEST_SEARCHREPOS,
+    RECEIVE_SEARCHREPOS,
+    RECEIVE_SEARCHREPOS_ERROR,
     SELECTED_REPO,
     REQUEST_EVENTS,
     RECEIVE_EVENTS,
@@ -48,6 +51,26 @@ function receiveRepos(json) {
 function receiveReposErr(error) {
   return {
     type: RECEIVE_USERREPOS_ERROR,
+    error
+  };
+}
+
+function requestSearchRepos() {
+  return {
+    type: REQUEST_SEARCHREPOS
+  };
+}
+
+function receiveSearchRepos(json) {
+  return {
+    type: RECEIVE_SEARCHREPOS,
+    repos: json
+  };
+}
+
+function receiveSearchReposErr(error) {
+  return {
+    type: RECEIVE_SEARCHREPOS_ERROR,
     error
   };
 }
@@ -114,11 +137,11 @@ export function fetchUserAndRepos(user) {
   };
 }
 
-export function searchRepos(search) {
+export function fetchSearchRepos(search) {
   return dispatch => {
-    dispatch(requestRepos());
+    dispatch(requestSearchRepos());
     return Api.get(`/search/repositories?q=${search}`)
-      .then(json => dispatch(receiveRepos(json.data)))
-      .catch(err => dispatch(receiveReposErr(err)));
+      .then(json => dispatch(receiveSearchRepos(json.data)))
+      .catch(err => dispatch(receiveSearchReposErr(err)));
   };
 }
